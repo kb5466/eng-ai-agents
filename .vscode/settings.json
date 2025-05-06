@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./project/LLM-Engineers-Handbook/steps/generate_",
+        "./project/LLM-Engineers-Handbook/RAG-Project/Retrieval-Pipeline"
+    ]
+}

@@ -179,3 +179,5 @@ runs/
 *.tar.xz
 datasets/*
 datasets/MVTec/
+
+blip-finetuned/
