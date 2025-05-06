@@ -17,12 +17,11 @@ from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
 from transformers import BlipModel, BlipProcessor
 
-sentence_model = SentenceTransformer("all-MiniLM-L12-v2")
+load_dotenv()
 
+sentence_model = SentenceTransformer("all-MiniLM-L12-v2")
 nlp = spacy.load("en_core_web_sm")
 collection_name = "video_chunks"
-
-load_dotenv()
 QDRANT_HOST = os.getenv("QDRANT_HOST")
 QDRANT_KEY = os.getenv("QDRANT_KEY")
 MONGO_COLLECTIONS = "decoded_frames"
@@ -42,9 +41,11 @@ except errors.ServerSelectionTimeoutError as e:
 
 print("Loading fine-tuned model")
 
-MODEL_PATH = "../Ingestion-Pipeline/blip-finetuned"
-model = BlipModel.from_pretrained(MODEL_PATH)
-processor = BlipProcessor.from_pretrained(MODEL_PATH)
+MODEL_PATH = (
+    "/workspaces/eng-ai-agents/project/RAG-Video/ingestion_pipeline/blip-finetuned"
+)
+model = BlipModel.from_pretrained(MODEL_PATH, local_files_only=True)
+processor = BlipProcessor.from_pretrained(MODEL_PATH, local_files_only=True)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
@@ -186,12 +187,12 @@ def search_qdrant(query_embedding, top_k=5):
                     "frame": frame,
                 }
             )
-            print(f"Video ID: {video_id}, Timestamp: {start} - {end}, Text: {text}")
+            print(f"Video ID: {video_id}, Timestamp: {start} - {end}")
 
     return extracted_results
 
 
-def retrieval_pipeline(search_query: str, top_k: int = 5):
+def retrieval_pipeline_url(search_query: str, top_k: int = 5):
     """
     Accepts a user query, performs a semantic search using the fine-tuned BLIP model,
     compares it to the retrieved results using Sentence-Transformer, and generates
@@ -242,3 +243,8 @@ def retrieval_pipeline(search_query: str, top_k: int = 5):
     # Step 8: Select the start and end timestamps for the clip (adding a 5s padding)
     start = min([r["start"] for r in related_results])
     end = max([r["end"] for r in related_results]) + 5
+    url = f"https://www.youtube.com/embed/{best_video_id}?t={start}"
+    print(best_video_id)
+    print(start)
+    print(end)
+    return url

@@ -12,7 +12,6 @@ from pymongo import MongoClient, errors
 
 load_dotenv()
 
-
 MONGO_COLLECTIONS = "decoded_frames"
 MONGO_DB_STRING = os.getenv("DATABASE_HOST")
 
@@ -45,6 +44,7 @@ def seconds_to_timestamp(seconds):
     return str(datetime.utcfromtimestamp(seconds).strftime("%H:%M:%S.%f")[:-3])
 
 
+# Modify to check for overlaps
 def merge_subtitles(subtitles: List[Dict], time_gap_threshold=1.0) -> List[str]:
     merged_blocks = []
     current_block = []
