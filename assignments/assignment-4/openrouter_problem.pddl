@@ -29,22 +29,30 @@
     (llm-has-capability codegen code)
     (llm-has-capability codegen safe-for-kids)
 
-    ;; Providers
+    ;; LLM providers
     (llm-supported-by gpt4 openai)
     (llm-supported-by mistral mistral-ai)
     (llm-supported-by codegen huggingface)
 
-    ;; Symbolic costs
+    ;; LLM costs
     (llm-has-cost gpt4 high-cost)
     (llm-has-cost mistral medium-cost)
     (llm-has-cost codegen low-cost)
 
-    ;; Account budget (symbolic, optional unless you model more)
-    (account-has-budget account1)
+    ;; Token context OK (for all LLMs)
+    (llm-context-ok gpt4)
+    (llm-context-ok mistral)
+    (llm-context-ok codegen)
 
-    ;; Requests
+    ;; Account budget
+    (account-has-budget account1 high-cost)
+
+    ;; Requests and their required capabilities
     (request-needs-capability req1 code)
     (request-needs-capability req2 multilingual)
+
+    (request-unassigned req1)
+    (request-unassigned req2)
   )
 
   (:goal
