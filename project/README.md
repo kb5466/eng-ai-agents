@@ -76,7 +76,7 @@ Prepares raw subtitle and frame data for embedding by breaking down long transcr
 ## Project Structure
 
 ```
-RAG-Project/
+RAG-Video/
 │
 ├── ingestion_pipeline/
 │   ├── blip-finetuned/          # Fine-tuned BLIP weights
