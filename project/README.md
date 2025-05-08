@@ -67,11 +67,18 @@ Prepares raw subtitle and frame data for embedding by breaking down long transcr
 * Re-ranks results using cosine similarity.
 * Selects the most relevant clip based on combined frame/text match.
 * Returns video id and time stamp based on best results
-* Generate LLM response to help reader
+* 
 
 ---
 
 ## Generation Pipeline
+
+### `app.py`
+* Utilize `retrieval_pipeline`
+* Take User Query
+* Return video id based on query
+* Generate LLM response to help reader
+* Display using gr and display as a web app
 
 ## Project Structure
 
